@@ -48,7 +48,7 @@ function renderCandidates(data){
           .append(
              $('<label>')
                   .append($('<input>').attr('type','checkbox').val(i))
-                  .append($('<img>').attr('class','profile-img').attr('src',item.photo))
+                 // .append($('<img>').attr('class','profile-img').attr('src',item.photo))
                   .append($('<b>').text(i))
               
               );
