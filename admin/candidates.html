@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Vote result - Report</title>
+    <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+    <script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link rel="stylesheet" href="../styles/style.css" type="text/css" />
+    <link rel="shortcut icon" href="../images/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Report's Home</a>
+        </div>
+        <ul class="nav navbar-nav">
+          <li ><a href="list_voters.html">Who has voted Yet</a></li>
+          <li><a href="comments.html">Voter's Comments</a></li> 
+          <li><a href="index.html">Overall Vote Results</a></li> 
+          <li class="active"><a href="candidates.html">Manage Candidates</a></li>
+        </ul>
+      </div>
+    </nav>
+        
+    <div class="report container">
+        <br>
+       <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">EbenezerDc Young Adult Candidates List </h3>
+      </div>
+      <div class="panel-body">
+       <div id="candidates">
+         
+       </div>
+       <div><button class="add btn btn-default" data-target="#myModal">Add New Candiate..</button></div>
+      </div>
+    </div>     
+
+    </div>
+    
+    <div class="loading">
+		<img src="../images/loading.gif" alt="">
+	</div>
+	
+	
+	<!--Add candidate Model-->
+	     <div class="modal fade" id="myModal-add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Add New Candidate:<h4>
+                </div>
+                <div class="modal-body">
+                   <form>
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Candiates Name:</label>
+                        <input type="text" class="form-control" id="name" placeholder="Enter Candidates Name...">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Candidates Photo URL:</label>
+                        <input type="text" class="form-control" id="photo" placeholder="Enter Photo URL..">
+                      </div>
+                      
+                      <button type="submit" class="submit btn btn-default">Submit</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+               
+                </div>
+              </div>
+            </div>
+          </div>
+	
+	
+	
+	<!--Delete candidate confirmation model-->
+	     <div class="modal fade" id="myModal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Add New Candidate:<h4>
+                </div>
+                <div class="modal-body">
+                   <form>
+                   <div>Are you Sure You want to Delete This User?</div>
+                      <button type="submit" class="submit btn btn-default">Yes</button>
+                      <button type="reset" class="submit btn btn-default">No</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+               
+                </div>
+              </div>
+            </div>
+          </div>
+	
+	
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>	
+<script type="text/javascript" src="../scripts/candidates.js"></script>
+<script>
+    getCandidatesAsTable();
+</script>
+</body>
+</html>
