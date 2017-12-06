@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ebenezer DC young Adult Vote App</title>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="styles/style.css" type="text/css" />
+<meta charset="UTF-8">
+</head>
+<body>
+<script>
+  // This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into Facebook.';
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1669745816646766',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.2' // use version 2.2
+  });
+
+  // Now that we've initialized the JavaScript SDK, we call 
+  // FB.getLoginStatus().  This function gets the state of the
+  // person visiting this page and can return one of three states to
+  // the callback you provide.  They can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into
+  //    your app or not.
+  //
+  // These three cases are handled in the callback function.
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log(response);
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+        
+        $('#wrapper').show();
+        $('.welcome').hide();
+        $('#person').attr('value',response.name);
+        $('#welcome').text(response.name);
+        getVotingHistory();
+    });
+    
+    
+    FB.api("/me/picture?width=50&height=50",  function(response) {
+
+        $('#profile-image').attr('value',response.data.url);
+        $('#profile-img').attr('src',response.data.url);
+
+});  
+  }
+</script>
+
+
+
+   
+     
+   
+   
+  <div id="wrapper">
+    <div class="container">
+     
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><img src="images/icon.jpg" width="16"></img>  EbenezerDc Young Adult Leader's Voting App</h3>
+        </div>
+        
+        <div class="panel-body">
+         <img src="images/banner.jpg" class="img-responsive"></img>
+           <div class=" instruction">
+           
+              <div class="profile">
+                <img class="pull-left" src="" id="profile-img">
+                &nbsp;&nbsp;<b>Welcome <span id="welcome"></span></b> , <br>&nbsp;&nbsp;thanks for taking time to Vote Ebenezer Dc Young adult Leaders.</div>
+            <hr>
+            
+            <div id="vote-again" class="alert alert-warning" role="alert">It seems as you are voting again. It's ok, fell free to vote again if you changed your mind. Here are the people you voted last time:-
+              <ul id="vote-list"></ul>
+            </div>
+               
+             <div class="instruction" role="alert"><b>Things to consider before voting:</b> 
+               <ul >
+                 <li> The person must be passinate about serving God consistently</li>
+                 <li>It is helpful if the person is regular church attendant</li>
+                 <li> <b>Important:</b>  We can not chose from the current leaders</li>
+                 <li>The leader must live with in 50miles radius from the church</li>
+                 <li>We name four leaders beginning from the first chose to the fourth one</li>
+                 <!--<li>If the person that you want to vote is not in the list, feel free to add her to the <b>Add a Candidate</b> text box and press Enter</li>-->
+               </ul>
+             </div>
+          </div>
+        <form id="myForm">
+          
+       
+       <div id="candidates">
+         
+       </div>
+          
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Afomia Weldaeb"><img class="profile-img" src="http://graph.facebook.com/100000566650393/picture?type=square"></img> <b>Afomia Weldaeb</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Agazit Yemane"><img class="profile-img" src="http://graph.facebook.com/100002171728282/picture?type=square"></img> <b>Agazit Yemane</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Ayda Negassi"><img class="profile-img" src="http://graph.facebook.com/708806655/picture?type=square"></img> <b>Ayda Negassi</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Asmeret Tsegai Fisseha"><img class="profile-img" src="http://graph.facebook.com/695763473/picture?type=square"></img> <b>Asmeret Tsegai Fisseha</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Azamit Hagos"><img class="profile-img" src="http://graph.facebook.com/100006612736959/picture?type=square"></img> <b>Azamit Hagos</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Bisrat Zemicael"><img class="profile-img" src="http://graph.facebook.com/100004291051750/picture?type=square"></img> <b>Bisrat Zemicael</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Danait Alem"><img class="profile-img" src="http://graph.facebook.com/100004820551843/picture?type=square"></img> <b>Danait Alem</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Desta H Yohanes"><img class="profile-img" src="http://graph.facebook.com/100000909414431/picture?type=square"></img> <b>Desta H Yohanes</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Eden Asmelash"><img class="profile-img" src="http://graph.facebook.com/100004700315813/picture?type=square"></img> <b>Eden Asmelash</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Elilta Hagos"><img class="profile-img" src="http://graph.facebook.com/100005219345248/picture?type=square"></img> <b>Elilta Hagos</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Faith-Freweini Solomon"><img class="profile-img" src="http://graph.facebook.com/1670930948/picture?type=square"></img> <b>Faith-Freweini Solomon</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Frew Teshome"><img class="profile-img" src="http://graph.facebook.com/100001936772005/picture?type=square"></img> <b>Frew Teshome</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Fyori Abrha"><img class="profile-img" src="http://graph.facebook.com/100001761702574/picture?type=square"></img> <b>Fyori Abrha</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Hermella Yohannis"><img class="profile-img" src="http://graph.facebook.com/100003992724929/picture?type=square"></img> <b>Hermella Yohannis</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Lia Kibreab"><img class="profile-img" src="http://graph.facebook.com/100001869988754/picture?type=square"></img> <b>Lia Kibreab</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Makda Tesfamichael"><img class="profile-img" src="http://graph.facebook.com/100006570375082/picture?type=square"></img> <b>Makda Tesfamichael</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Milena Neghede"><img class="profile-img" src="http://graph.facebook.com/100003552380799/picture?type=square"></img> <b>Milena Neghede</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Misgana Gebremeskel"><img class="profile-img" src="http://graph.facebook.com/100003833826299/picture?type=square"></img> <b>Misgana Gebremeskel</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Netsa Tesfai"><img class="profile-img" src="http://graph.facebook.com/1766758276/picture?type=square"></img> <b>Netsa Tesfai</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Rahwa N Ghebre"><img class="profile-img" src="http://graph.facebook.com/1017390394/picture?type=square"></img> <b>Rahwa N Ghebre</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Rahel Elias"><img class="profile-img" src="http://graph.facebook.com/100000761675843/picture?type=square"></img> <b>Rahel Elias</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Rahel Tekle"><img class="profile-img" src="http://graph.facebook.com/1411217499/picture?type=square"></img> <b>Rahel Tekle</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Rigat Tesfay"><img class="profile-img" src="http://graph.facebook.com/100001184020854/picture?type=square"></img> <b>Rigat Tesfay</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Sarah Tesfamichael"><img class="profile-img" src="http://graph.facebook.com/100000675935824/picture?type=square"></img> <b>Sarah Tesfamichael</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Seble Fessahazion"><img class="profile-img" src="http://graph.facebook.com/100001263326419/picture?type=square"></img> <b>Seble Fessahazion</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Shewit Samuel"><img class="profile-img" src="http://graph.facebook.com/625700458/picture?type=square"></img> <b>Shewit Samuel</b>-->
+<!--  </label>-->
+<!--</div>-->
+<!--<div class="checkbox">-->
+<!--  <label>-->
+<!--    <input type="checkbox" value="Soliana Tesfasilase"><img class="profile-img" src="http://graph.facebook.com/100008285882445/picture?type=square"></img> <b>Soliana Tesfasilase</b>-->
+<!--  </label>-->
+<!--</div>-->
+          
+          <!--<div class="checkbox" id="marked">-->
+          <!--  <label>-->
+          <!--    <input type="text" id="add" value="" placeholder=" Add a Candidate..">-->
+          <!--  </label>-->
+          <!--</div>-->
+          
+          <input type="hidden" id="person" value="" />
+          <input type="hidden" id="profile-image" value="" />
+          <div class="form-group">
+            <label for="comment">Constructive comment (optional)</label>
+            <textarea rows="5" class="form-control" id="comment" placeholder="Enter Comment here..."></textarea>
+          </div>
+          <button type="button" class="submit btn btn-success my-btn" data-toggle="modal" data-target="#myModal">Submit</button> <button type="submit" class="reset btn btn-warning my-btn">Clear</button>
+        
+        
+                  <!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Confirmation Dialog:<h4>
+                </div>
+                <div class="modal-body">
+                  We have received your vote. God bless you. <br>
+                  Here are the people you voted:-
+                  <ul id="vote-confirm"></ul>
+                  
+                  Do you want to stay in this app? If so press <b>Stay Here</b>
+                  button. If you are done voting press
+                   <b>Facebook Home</b> to go to your Facebook profile home.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Stay Here</button>
+                  <button class="btn btn-primary" id="facebook-home-btn"> Facebook Home</button>
+                </div>
+              </div>
+            </div>
+          </div>
+           
+        
+        
+        
+        </form>
+      </div>
+    </div>
+    </div>
+    
+    
+    
+    </div>
+ 
+  <div class="container welcome">
+    <br>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><img src="images/icon.jpg" width="16"></img>  EbenezerDc Young Adult Leader's Voting App</h3>
+    </div>
+    <div class="panel-body">
+        <img src="images/banner.jpg" class="img-responsive"></img>
+       <!--
+      Below we include the Login Button social plugin. This button uses
+      the JavaScript SDK to present a graphical Login button that triggers
+      the FB.login() function when clicked.
+      -->
+      
+      <div class="text-center">
+          <div id="status">
+      </div>
+      
+      <div></div>
+      </div>
+      <div class="text-center">
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
+      </div>
+    
+    <div class="alert alert-info"><b>Information:</b> This app will receive only  your public profile. Always fell free to look carefully on <b>Edit the info you provide</b> option, and control what information this app access.</b></div>
+    </div>
+  </div>
+  
+
+   
+  </div>
+
+   
+ 
+
+
+ 
+ 
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="scripts/app.js"></script>
+  <script type="text/javascript" src="../scripts/candidates.js"></script>
+ <script>
+    getCandidates();
+ </script>
+
+</body>
+</html>

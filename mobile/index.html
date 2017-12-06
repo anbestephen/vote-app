@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Facebook Login JavaScript Example</title>
+<script src="https://code.jquery.com/jquery-2.1.4.js"></script>
+<script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<link rel="stylesheet" href="styles/style.css" type="text/css" />
+<meta charset="UTF-8">
+</head>
+<body>
+<script>
+  // This is called with the results from from FB.getLoginStatus().
+  function statusChangeCallback(response) {
+    console.log('statusChangeCallback');
+    console.log(response);
+    // The response object is returned with a status field that lets the
+    // app know the current login status of the person.
+    // Full docs on the response object can be found in the documentation
+    // for FB.getLoginStatus().
+    if (response.status === 'connected') {
+      // Logged into your app and Facebook.
+      testAPI();
+    } else if (response.status === 'not_authorized') {
+      // The person is logged into Facebook, but not your app.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into this app.';
+    } else {
+      // The person is not logged into Facebook, so we're not sure if
+      // they are logged into this app or not.
+      document.getElementById('status').innerHTML = 'Please log ' +
+        'into Facebook.';
+    }
+  }
+
+  // This function is called when someone finishes with the Login
+  // Button.  See the onlogin handler attached to it in the sample
+  // code below.
+  function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
+  }
+
+  window.fbAsyncInit = function() {
+  FB.init({
+    appId      : '1669745816646766',
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.2' // use version 2.2
+  });
+
+  // Now that we've initialized the JavaScript SDK, we call 
+  // FB.getLoginStatus().  This function gets the state of the
+  // person visiting this page and can return one of three states to
+  // the callback you provide.  They can be:
+  //
+  // 1. Logged into your app ('connected')
+  // 2. Logged into Facebook, but not your app ('not_authorized')
+  // 3. Not logged into Facebook and can't tell if they are logged into
+  //    your app or not.
+  //
+  // These three cases are handled in the callback function.
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+  });
+
+  };
+
+  // Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+  // Here we run a very simple test of the Graph API after login is
+  // successful.  See statusChangeCallback() for when this call is made.
+  function testAPI() {
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log(response);
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+        
+        $('#wrapper').show();
+        $('.welcome').hide();
+        $('#person').attr('value',response.name);
+        $('#welcome').text(response.name);
+        getVotingHistory();
+    });
+    
+    
+    FB.api("/me/picture?width=50&height=50",  function(response) {
+
+        $('#profile-image').attr('value',response.data.url);
+        $('#profile-img').attr('src',response.data.url);
+
+});  
+  }
+</script>
+
+
+
+   
+     
+   
+   
+  <div id="wrapper">
+    <div class="container">
+     
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title"><img src="images/icon.jpg" width="16"></img>  EbenezerDc Young Adult Leader's Voting App</h3>
+        </div>
+        
+        <div class="panel-body">
+         <img src="images/banner.jpg" class="img-responsive"></img>
+           <div class=" instruction">
+           
+              <div class="profile">
+                <img class="pull-left" src="" id="profile-img">
+                &nbsp;&nbsp;<b>Welcome <span id="welcome"></span></b> , <br>&nbsp;&nbsp;thanks for taking time to Vote Ebenezer Dc Young adult Leaders.</div>
+            <hr>
+            
+            <div id="vote-again" class="alert alert-warning" role="alert">It seems as you are voting again. It's ok, fell free to vote again if you changed your mind. Here are the people you voted last time:-
+              <ul id="vote-list"></ul>
+            </div>
+               
+             <div class="instruction" role="alert"><b>Things to consider before voting:</b> 
+               <ul >
+                 <li> The person must be passinate about serving God consistently</li>
+                 <li>It is helpful if the person is regular church attendant</li>
+                 <li> <b>Important:</b>  We can not chose from the current leaders</li>
+                 <li>The leader must live with in 50miles radius from the church</li>
+                 <li>We name four leaders beginning from the first chose to the fourth one</li>
+               </ul>
+             </div>
+          </div>
+        <form id="myForm">
+          
+          <!--<div class="checkbox">-->
+          <!--  <label>-->
+          <!--    <input type="checkbox" value="Emmanuel Bahta"><img class="profile-img" src="images/aman.jpg"></img> <b>Emmanuel Bahta</b>-->
+          <!--  </label>-->
+          <!--</div>-->
+          
+          <!--<div class="checkbox">-->
+          <!--  <label>-->
+          <!--    <input type="checkbox" value="Danait Alem"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xal1/v/t1.0-1/p160x160/12524091_422018724635476_8252406451657667476_n.jpg?oh=1e3719962a4dfd0cab451a99890335ae&oe=57351651" /> <b>Danait Alem</b>-->
+          <!--  </label>-->
+          <!--</div>-->
+          
+          <!--<div class="checkbox">-->
+          <!--  <label>-->
+          <!--    <input type="checkbox" value="Desta Hagos"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xft1/v/t1.0-1/p160x160/11392871_963723530334618_8182089678469971365_n.jpg?oh=a920ca6f2bfdf699e8ce2fc8e70e16e1&oe=57004A02" /> <b>Desta Hagos</b>-->
+          <!--  </label>-->
+          <!--</div>-->
+
+          <!--<div class="checkbox">-->
+          <!--  <label>-->
+          <!--    <input type="checkbox" value="Fikre Tekie"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xlp1/v/t1.0-1/c0.0.160.160/p160x160/1622188_1231406953543365_8548073423638770593_n.jpg?oh=a48a4418aaad28a8c1498eec94f9cb1b&oe=56FCDD33"></img> <b>Fikre Tekie</b>-->
+          <!--  </label>-->
+          <!--</div>-->
+          
+          <!--<div class="checkbox">-->
+          <!--  <label>-->
+          <!--    <input type="checkbox" value="Frehiwet Teweldebrhan"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xfl1/v/t1.0-1/p160x160/10171235_1023672437643250_4519235520780170186_n.jpg?oh=be161f48486023d776495a0708cb2fee&oe=573E05C6"></img> <b>Frehiwet Teweldebrhan</b>-->
+          <!--  </label>-->
+          <!--</div>-->
+          
+          
+          <!--<div class="checkbox">-->
+          <!--  <label>-->
+          <!--    <input type="checkbox" value="Rigat Tesfay"><img class="profile-img" src="images/rigat.jpg" /> <b>Rigat Tesfay</b>-->
+          <!--  </label>-->
+          <!--</div>-->
+          
+          <!--<div class="checkbox">-->
+          <!--  <label>-->
+          <!--    <input type="checkbox" value="Samuel Okbaab"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xft1/v/t1.0-1/p50x50/12507320_10205429269199060_2319211834959382772_n.jpg?oh=6e2dfabebe0fcb9264b8e332762b48b8&oe=573351F0"></img> <b>Samuel Okbaab</b>-->
+          <!--  </label>-->
+          <!--</div>-->
+          
+          
+          
+                    
+          <!--<div class="checkbox">-->
+          <!--  <label>-->
+          <!--    <input type="checkbox" value="Freweini Solomon"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xfa1/v/t1.0-1/p160x160/12191625_10204201000579812_1560280366515500181_n.jpg?oh=3a027bd95f78bb4082cc5081c307ad22&oe=57363F67" /> <b>Freweini Solomon</b>-->
+          <!--  </label>-->
+          <!--</div>-->
+          
+          
+       
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Abeselom Nuguse"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xtp1/v/t1.0-9/12227730_10206967828528041_6318838053609301299_n.jpg?oh=dae87dbafffba9532cc110a32ea9c918&oe=5749D97D"></img> <b>Abeselom Nuguse</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Afomia Weldaeb"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xfp1/t31.0-8/s960x960/12640307_1213569618671915_5061202533415212901_o.jpg"></img> <b>Afomia Weldaeb</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Aron Zekarias(kolele)"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xaf1/v/t1.0-1/c0.0.742.742/10153070_879952032022612_1441393687258405217_n.jpg?oh=4bc9339047cbbb0ebe3965430aa655e2&oe=5748C54A"></img> <b>Aron Zekarias(kolele)</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Asmeret Tsegai Fisseha"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/12308249_10153855689153474_2444755725077936076_n.jpg?oh=07f252deecc54172518209f86bfac5d2&oe=573C4CCE"></img> <b>Asmeret Tsegai Fisseha</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Awet Tesfamariam"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xtf1/v/t1.0-9/1917200_100991883262907_8210486_n.jpg?oh=bb896cbf1b1460265ee69de5bb48dc6e&oe=57358A2D"></img> <b>Awet Tesfamariam</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Bereket Weldemikeal"><img class="profile-img" src=""></img> <b>Bereket Weldemikeal</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Berhane Meskel Michael"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xtl1/v/t1.0-9/12196340_1077052075648106_5121451423103607830_n.jpg?oh=5588c56d169f9642dda46f4a7c42203f&oe=572A891F"></img> <b>Berhane Meskel Michael</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Bini Kebede"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xfp1/v/t1.0-9/12004763_10207305995470028_4778335788419109600_n.jpg?oh=c082935f695634976ccfc0d059624e36&oe=57418098"></img> <b>Bini Kebede</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Bisrat Yemane"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xfp1/v/t1.0-9/12509806_1208078882554354_9185862401454572427_n.jpg?oh=f9dec7d9a492de7c74e3c851be54f80e&oe=57319191"></img> <b>Bisrat Yemane</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Bisrat Zemicael"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xat1/v/t1.0-1/c90.210.540.540/12038319_531288333690864_953939191744040902_n.jpg?oh=a1d09d59bad2a68f72b2df7b4e7f5208&oe=5729733D"></img> <b>Bisrat Zemicael</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Danait Alem"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xal1/v/t1.0-1/12524091_422018724635476_8252406451657667476_n.jpg?oh=93b1b409d4caa1586a81ed77679f9c99&oe=573716FA"></img> <b>Danait Alem</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Dawit Weldab"><img class="profile-img" src=""></img> <b>Dawit Weldab</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Eden Asmelash"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xfa1/v/t1.0-9/11751922_474207902745883_5022426203541817928_n.jpg?oh=2ed629dc14c349d421f50beb2ff9c11d&oe=57485C9E"></img> <b>Eden Asmelash</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Emmanuel Bahta"><img class="profile-img" src="images/aman.jpg"></img> <b>Emmanuel Bahta</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Faith-Freweini Solomon"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xfa1/v/t1.0-9/12191625_10204201000579812_1560280366515500181_n.jpg?oh=7c917bf88806b630b7419c8d5ce6c9d3&oe=5742F038"></img> <b>Faith-Freweini Solomon</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Fikre Tekie"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xtp1/t31.0-8/s960x960/12489289_1231406953543365_8548073423638770593_o.jpg"></img> <b>Fikre Tekie</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Frew Teshome"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xfa1/v/t1.0-9/11070374_829716913769527_3268456777086817028_n.jpg?oh=ffd2049a30800dd32aa4d4bd53c303a7&oe=5749004B"></img> <b>Frew Teshome</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Ghide Ha (Gidewon)"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xfa1/v/t1.0-9/10301280_10205679623642801_8738078776625850128_n.jpg?oh=da06bfdd6c0c7c8fcaed663e195864c5&oe=574474CD"></img> <b>Ghide Ha (Gidewon)</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="John Okbaab"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-frc3/v/t1.0-9/10434003_10153003546119721_5193313183744383689_n.jpg?oh=7db916d81ef76a295cb7ab314660cd2f&oe=573CF0D7"></img> <b>John Okbaab</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Keep Living(Frehiwet)"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xfp1/v/t1.0-9/12592464_1149258715084621_4095988259051110402_n.jpg?oh=bb493485a72e967cf4e755efb70fc128&oe=57383170"></img> <b>Keep Living(Frehiwet)</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Kibruysfah John"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/11750619_10204605003101815_1250078305763665315_n.jpg?oh=6c4814808a1845e1dcfa328336e8286a&oe=572EF73B"></img> <b>Kibruysfah John</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Lia Kibreab"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xfa1/v/t1.0-9/946432_1007793575959632_730389686515764918_n.jpg?oh=36d2794a072910d07d8ba7e38deddc88&oe=572EDF42"></img> <b>Lia Kibreab</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Makda Tesfamichael"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xal1/v/t1.0-9/1935634_1736087026620293_1335276856241255069_n.jpg?oh=029ee96b1612d10413ace3aac3ca3385&oe=57409F44"></img> <b>Makda Tesfamichael</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Medhane Asress"><img class="profile-img" src=""></img> <b>Medhane Asress</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Medhanie Weldeyesus"><img class="profile-img" src=""></img> <b>Medhanie Weldeyesus</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Mihretab Hadgu"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xtf1/v/t1.0-9/10416631_889806694409225_5976583527586012710_n.jpg?oh=d8d1c27f77c16d89ca82917af74e46a3&oe=5734C086"></img> <b>Mihretab Hadgu</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Mulgeta Gebrehawariat"><img class="profile-img" src=""></img> <b>Mulgeta Gebrehawariat</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Netsa Tesfai"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xpa1/v/t1.0-9/12094_3590707904143_1387054520_n.jpg?oh=f0f778642c31a30b6ec0742aaff4b7dc&oe=573DD1DE"></img> <b>Netsa Tesfai</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Paulos Bahta"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xaf1/v/t1.0-1/c0.66.587.587/217022_108294699256611_542301_n.jpg?oh=ea309febdba0a2ba612011cb311ad021&oe=573976EA"></img> <b>Paulos Bahta</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Rahwa N Ghebre"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/10489628_10205808029292742_1723866343947882023_n.jpg?oh=78015073d5b61be000103029c7b6a27f&oe=572D3E54"></img> <b>Rahwa N Ghebre</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Rigat Tesfay"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xfa1/t31.0-8/55274_145038605545606_248507_o.jpg"></img> <b>Rigat Tesfay</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Robel Tes (tesfagergish)"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/12573220_10208907166855284_9220160369839052770_n.jpg?oh=905e15f4ae58161da99dfa1e219ddf21&oe=57380EEB"></img> <b>Robel Tes (tesfagergish)</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Sam OB(Samuel Okbaab)"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xft1/v/t1.0-9/12507320_10205429269199060_2319211834959382772_n.jpg?oh=9470820396211dab73e15c4c95360f35&oe=57421CDC"></img> <b>Sam OB(Samuel Okbaab)</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Sarah Tesfamichael"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xaf1/v/t1.0-9/11200818_969569796408876_7940713495869199026_n.jpg?oh=95e713b106124e57eb7b855c114f558d&oe=5744E5AF"></img> <b>Sarah Tesfamichael</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Sasinos Haile"><img class="profile-img" src=""></img> <b>Sasinos Haile</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Shewit Samuel"><img class="profile-img" src=""></img> <b>Shewit Samuel</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Solomon Asefaw"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xlp1/v/t1.0-9/12391178_1171496149545341_442894757375952434_n.jpg?oh=204b345e0f96eaedf0ad03558c75c153&oe=5734CD7B"></img> <b>Solomon Asefaw</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Tekleab Essey"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xlt1/v/t1.0-1/12195893_1675384556012516_3415847217480317540_n.jpg?oh=b9d318fc8adcee358f22ea5b5cd82b6c&oe=5736054D"></img> <b>Tekleab Essey</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Teklu Kesete"><img class="profile-img" src=""></img> <b>Teklu Kesete</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Tesfit Weldemariam"><img class="profile-img" src=""></img> <b>Tesfit Weldemariam"</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Yonas Hagos"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hphotos-xtp1/v/t1.0-9/12096345_1645389045699827_2813606796664431503_n.jpg?oh=b6edee51f4b2515892a7d5698c71a571&oe=572F7D2D"></img> <b>Yonas Hagos</b>
+  </label>
+</div>
+<div class="checkbox">
+  <label>
+    <input type="checkbox" value="Yosias Hagos"><img class="profile-img" src="https://scontent-iad3-1.xx.fbcdn.net/hprofile-xlf1/v/t1.0-1/c73.0.356.356/429612_560356437315329_1706208004_n.jpg?oh=8b8afe71bea330ca007219fdedad9e51&oe=5748106D"></img> <b>Yosias Hagos</b>
+  </label>
+</div>   
+          
+          <div class="checkbox" id="marked">
+            <label>
+              <input type="text" id="add" value="" placeholder=" Add a Candidate..">
+            </label>
+          </div>
+          
+          <input type="hidden" id="person" value="" />
+          <input type="hidden" id="profile-image" value="" />
+          <div class="form-group">
+            <label for="comment">Constructive comment (optional)</label>
+            <textarea rows="5" class="form-control" id="comment" placeholder="Enter Comment here..."></textarea>
+          </div>
+          <button type="button" class="submit btn btn-success my-btn" data-toggle="modal" data-target="#myModal">Submit</button> <button type="submit" class="reset btn btn-warning my-btn">Clear</button>
+        
+        
+                  <!-- Modal -->
+          <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Confirmation Dialog:<h4>
+                </div>
+                <div class="modal-body">
+                  We have received your vote. God bless you. <br>
+                  Here are the people you voted:-
+                  <ul id="vote-confirm"></ul>
+                  
+                  Do you want to stay in this app? If so press <b>Stay Here</b>
+                  button. If you are done voting press
+                   <b>Facebook Home</b> to go to your Facebook profile home.
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Stay Here</button>
+                  <button class="btn btn-primary" id="facebook-home-btn"> Facebook Home</button>
+                </div>
+              </div>
+            </div>
+          </div>
+           
+        
+        
+        
+        </form>
+      </div>
+    </div>
+    </div>
+    
+    
+    
+    </div>
+ 
+  <div class="container welcome">
+    <br>
+  
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h3 class="panel-title"><img src="images/icon.jpg" width="16"></img>  EbenezerDc Young Adult Leader's Voting App</h3>
+    </div>
+    <div class="panel-body">
+        <img src="images/banner.jpg" class="img-responsive"></img>
+       <!--
+      Below we include the Login Button social plugin. This button uses
+      the JavaScript SDK to present a graphical Login button that triggers
+      the FB.login() function when clicked.
+      -->
+      
+      <div class="text-center">
+          <div id="status">
+      </div>
+      
+      <div></div>
+      </div>
+      <div class="text-center">
+        <fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
+        </fb:login-button>
+      </div>
+    
+    <div class="alert alert-info"><b>Information:</b> This app will receive only  your public profile. Always fell free to look deep on <b>Edit the info you provide</b> option, and control what information this app access.</b></div>
+    </div>
+  </div>
+  
+
+   
+  </div>
+
+   
+ 
+
+
+ 
+ 
+ <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="scripts/app.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,36 @@
+[
+  {
+    "name": "one name",
+    "photo": "http://philosophy.ucr.edu/wp-content/uploads/2014/10/no-profile-img.gif",
+    "value": "one name"
+  },
+  {
+    "name": "two name",
+    "photo": "http://philosophy.ucr.edu/wp-content/uploads/2014/10/no-profile-img.gif",
+    "value": "two name"
+  },
+  {
+    "name": "three name",
+    "photo": "http://philosophy.ucr.edu/wp-content/uploads/2014/10/no-profile-img.gif",
+    "value": "three name"
+  },
+  {
+    "name": "four name",
+    "photo": "http://philosophy.ucr.edu/wp-content/uploads/2014/10/no-profile-img.gif",
+    "value": "four name"
+  },
+  {
+    "name": "five name",
+    "photo": "http://philosophy.ucr.edu/wp-content/uploads/2014/10/no-profile-img.gif",
+    "value": "five name"
+  },
+  {
+    "name": "six name",
+    "photo": "http://philosophy.ucr.edu/wp-content/uploads/2014/10/no-profile-img.gif",
+    "value": "six name"
+  },{
+    "name": "seven name",
+    "photo": "http://philosophy.ucr.edu/wp-content/uploads/2014/10/no-profile-img.gif",
+    "value": "seven name"
+  },
+]

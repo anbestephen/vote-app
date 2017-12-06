@@ -1,0 +1,68 @@
+
+body{
+  color: #3B5998;
+  background: #f7f7f7;
+  
+}
+#wrapper{
+  
+    margin-top: 10px;
+    
+}
+
+.instruction{
+  color: rgb(70,70,70);
+  background: #dfe3ee;
+  padding: 10px;
+ 
+  
+}
+
+
+
+.container{
+    width: 750px;
+}
+.panel > .panel-heading {
+    background-image: none;
+    background-color: #3B5998;
+    color: white;
+
+}
+
+.profile-img{
+  width: 50px;
+  padding-right: 10px;
+}
+
+.checkbox{
+  background: #f7f7f7;
+}
+
+.welcome{
+  margin: 10px auto;
+  margin-top: 10px;
+}
+
+.welcome .panel{
+  margin-top: 10px;
+}
+
+.loading{
+  position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 1000;
+	background: rgba(250,250,250,.8);
+	display: none;
+}
+
+.loading img{
+  position: relative;
+	left: 50%;
+	top: 30%;
+	margin-top:-32px;
+	margin-left: -32px;
+}
