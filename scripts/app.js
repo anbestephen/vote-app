@@ -21,7 +21,7 @@ $('button.my-btn').attr('disabled','disabled');
 
 
 $('#myForm').on('click', 'input', function() {
-     if($('input:checked').size() == 2){
+     if($('input:checked').size() == 3){
      $('button.my-btn').removeAttr('disabled');
      $('input').attr('disabled','disabled');
    }else if($('input:checked').size() >=1){
